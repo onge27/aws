@@ -3,4 +3,5 @@ groq
 gunicorn
 python-dotenv
 bcrypt
+pandas
 
