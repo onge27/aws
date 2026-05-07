@@ -1,0 +1,13 @@
+/* Legacy styles kept minimal — design now uses Tailwind in base.html */
+.stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    border: 1px solid #f0ebe8;
+    transition: all .25s;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 20px rgba(0,0,0,.12);
+}

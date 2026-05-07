@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OES — Online Examination System{% endblock %} | WMSU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        maroon: { 50:'#fdf2f2',100:'#fce8e8',200:'#f9d0d0',500:'#8b0000',600:'#6b0000',700:'#5a0000',800:'#4a0000',900:'#1c0a0a' },
+                        gold:   { 300:'#fcd34d',400:'#d4af37',500:'#c9a227',600:'#b8941f',700:'#9a7c18' }
+                    },
+                    fontFamily: { sans:['Inter','system-ui','sans-serif'], display:['Cinzel','Georgia','serif'] }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *{box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Inter',system-ui,sans-serif}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#f1f1f1}::-webkit-scrollbar-thumb{background:#5a0000;border-radius:3px}
+        .sidebar-link{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:8px;font-size:.855rem;font-weight:500;color:rgba(255,255,255,.72);transition:all .2s;text-decoration:none}
+        .sidebar-link:hover{background:rgba(255,255,255,.1);color:#fff}
+        .sidebar-link.active{background:#c9a227;color:#3d0000;font-weight:700}
+        .sidebar-link i{width:17px;text-align:center;font-size:.87rem;flex-shrink:0}
+        .nav-section{font-size:.62rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:14px 13px 5px}
+        .flash-alert{display:flex;align-items:flex-start;gap:11px;padding:13px 16px;border-radius:10px;margin-bottom:10px;font-size:.875rem;animation:slideUp .3s ease both;position:relative}
+        .flash-close{position:absolute;top:10px;right:11px;background:none;border:none;cursor:pointer;opacity:.45;font-size:.85rem;padding:2px;transition:opacity .2s}
+        .flash-close:hover{opacity:1}
+        .data-table{width:100%;border-collapse:collapse}
+        .data-table th{background:#5a0000;color:#fff;padding:11px 14px;text-align:left;font-size:.77rem;font-weight:600;letter-spacing:.05em;white-space:nowrap}
+        .data-table th:first-child{border-radius:8px 0 0 0}.data-table th:last-child{border-radius:0 8px 0 0}
+        .data-table td{padding:11px 14px;font-size:.875rem;color:#374151;border-bottom:1px solid #f3f0ee;vertical-align:middle}
+        .data-table tbody tr{background:#fff;transition:background .15s}.data-table tbody tr:hover{background:#fdf8f5}
+        .data-table tbody tr:last-child td{border-bottom:none}
+        .form-input{width:100%;padding:10px 13px;border:1.5px solid #e5e0db;border-radius:8px;font-size:.9rem;font-family:'Inter',sans-serif;transition:all .2s;background:#fff;color:#1f2937}
+        .form-input:focus{outline:none;border-color:#5a0000;box-shadow:0 0 0 3px rgba(90,0,0,.1)}
+        .form-input::placeholder{color:#9ca3af}
+        select.form-input{cursor:pointer}
+        .form-label{display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:5px;letter-spacing:.02em}
+        .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border:none;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;text-decoration:none;white-space:nowrap}
+        .btn-primary{background:#5a0000;color:#fff}.btn-primary:hover{background:#4a0000;transform:translateY(-1px);box-shadow:0 4px 12px rgba(90,0,0,.35)}
+        .btn-secondary{background:#f3f4f6;color:#374151;border:1.5px solid #e5e7eb}.btn-secondary:hover{background:#e5e7eb}
+        .btn-gold{background:#c9a227;color:#3d0000}.btn-gold:hover{background:#b8941f;transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,162,39,.35)}
+        .btn-danger{background:#dc2626;color:#fff;padding:8px 16px;font-size:.8rem}.btn-danger:hover{background:#b91c1c}
+        .btn-success{background:#16a34a;color:#fff;padding:8px 16px;font-size:.8rem}.btn-success:hover{background:#15803d}
+        .btn-sm{padding:7px 14px;font-size:.8rem}
+        .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
+        .badge-green{background:#dcfce7;color:#15803d}.badge-red{background:#fee2e2;color:#dc2626}
+        .badge-yellow{background:#fef3c7;color:#92400e}.badge-blue{background:#dbeafe;color:#1d4ed8}
+        .card{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);border:1px solid #f0ebe8;overflow:hidden}
+        .card-header{padding:17px 22px;border-bottom:1px solid #f3f0ee;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+        .card-body{padding:22px}
+        .page-title{font-size:1.35rem;font-weight:700;color:#1a0a0a;margin-bottom:3px}
+        .page-subtitle{font-size:.855rem;color:#6b7280}
+        a{text-decoration:none}
+        @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .animate-fade-in{animation:fadeIn .35s ease both}
+        .animate-slide-up{animation:slideUp .4s ease both}
+        @media(max-width:1023px){ #sidebar{transform:translateX(-100%)}}
+        #sidebar.open{transform:translateX(0)!important}
+        .table-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-stone-50 text-gray-900 antialiased">
+
+{% if session.user_id %}
+<!-- ══ AUTHENTICATED LAYOUT ══ -->
+<div id="overlay" class="fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-maroon-900 z-30 transition-transform duration-300 flex flex-col shadow-2xl">
+    <!-- Brand -->
+    <div class="px-5 py-4 border-b border-white/10 flex items-center gap-3 flex-shrink-0">
+        <img src="{{ url_for('static', filename='img/wmsu_logo.png') }}" alt="WMSU" class="w-9 h-9 object-contain flex-shrink-0">
+        <div class="min-w-0">
+            <div class="font-display text-white font-bold text-[.82rem] leading-tight">Online Exam System</div>
+            <div class="text-gold-500 text-[.68rem] tracking-wider mt-0.5">WMSU</div>
+        </div>
+    </div>
+    <!-- User -->
+    <div class="px-4 py-3 border-b border-white/10 flex-shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-gold-500 flex items-center justify-center flex-shrink-0">
+                <span class="text-maroon-900 font-bold text-sm">{{ (session.name or 'U')[0]|upper }}</span>
+            </div>
+            <div class="min-w-0">
+                <div class="text-white text-sm font-semibold truncate">{{ session.name }}</div>
+                <div class="text-gold-500 text-xs capitalize">{{ session.role }}</div>
+            </div>
+        </div>
+    </div>
+    <!-- Nav -->
+    <nav class="flex-1 p-3 overflow-y-auto space-y-0.5">
+        {% if session.role == 'teacher' %}
+        <div class="nav-section">Overview</div>
+        <a href="{{ url_for('teacher_dashboard') }}" class="sidebar-link {% if request.endpoint=='teacher_dashboard' %}active{% endif %}"><i class="fas fa-gauge-high"></i>Dashboard</a>
+        <div class="nav-section">Academics</div>
+        <a href="{{ url_for('create_subject') }}" class="sidebar-link {% if request.endpoint=='create_subject' %}active{% endif %}"><i class="fas fa-book-open"></i>New Subject</a>
+        <a href="{{ url_for('create_exam') }}" class="sidebar-link {% if request.endpoint=='create_exam' %}active{% endif %}"><i class="fas fa-file-pen"></i>New Exam</a>
+        <div class="nav-section">Access Control</div>
+        <a href="{{ url_for('exam_requests') }}" class="sidebar-link {% if request.endpoint in ['exam_requests','approve_request','reject_request'] %}active{% endif %}" style="position:relative">
+            <i class="fas fa-inbox"></i>Exam Requests
+        </a>
+        <div class="nav-section">Students</div>
+        <a href="{{ url_for('upload_students') }}" class="sidebar-link {% if request.endpoint=='upload_students' %}active{% endif %}"><i class="fas fa-cloud-arrow-up"></i>Upload Students</a>
+        <a href="{{ url_for('view_allowed_students') }}" class="sidebar-link {% if request.endpoint=='view_allowed_students' %}active{% endif %}"><i class="fas fa-users"></i>View Students</a>
+        <a href="{{ url_for('view_results') }}" class="sidebar-link {% if request.endpoint=='view_results' %}active{% endif %}"><i class="fas fa-chart-bar"></i>Exam Results</a>
+        {% elif session.role == 'student' %}
+        <div class="nav-section">Overview</div>
+        <a href="{{ url_for('student_dashboard') }}" class="sidebar-link {% if request.endpoint=='student_dashboard' %}active{% endif %}"><i class="fas fa-gauge-high"></i>Dashboard</a>
+        <div class="nav-section">Exams</div>
+        <a href="{{ url_for('student_dashboard') }}" class="sidebar-link"><i class="fas fa-clipboard-list"></i>My Exams</a>
+        {% elif session.role == 'admin' %}
+        <div class="nav-section">Overview</div>
+        <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link {% if request.endpoint=='admin_dashboard' %}active{% endif %}"><i class="fas fa-gauge-high"></i>Dashboard</a>
+        <div class="nav-section">Management</div>
+        <a href="{{ url_for('manage_teachers') }}" class="sidebar-link {% if request.endpoint=='manage_teachers' %}active{% endif %}"><i class="fas fa-chalkboard-user"></i>Teachers</a>
+        <a href="{{ url_for('view_all_subjects') }}" class="sidebar-link {% if request.endpoint=='view_all_subjects' %}active{% endif %}"><i class="fas fa-book"></i>All Subjects</a>
+        <a href="{{ url_for('view_all_students') }}" class="sidebar-link {% if request.endpoint=='view_all_students' %}active{% endif %}"><i class="fas fa-graduation-cap"></i>All Students</a>
+        {% endif %}
+    </nav>
+    <!-- Logout -->
+    <div class="p-3 border-t border-white/10 flex-shrink-0">
+        <a href="{{ url_for('logout') }}" class="sidebar-link" style="color:rgba(252,165,165,.85)" onmouseover="this.style.background='rgba(153,27,27,.4)';this.style.color='#fca5a5'" onmouseout="this.style.background='';this.style.color='rgba(252,165,165,.85)'">
+            <i class="fas fa-right-from-bracket"></i>Sign Out
+        </a>
+    </div>
+</aside>
+
+<!-- Main -->
+<div class="lg:ml-60 min-h-screen flex flex-col">
+    <!-- Mobile bar -->
+    <header class="lg:hidden sticky top-0 z-10 bg-maroon-700 px-4 py-3 flex items-center justify-between shadow-lg flex-shrink-0">
+        <button onclick="openSidebar()" class="text-white p-1.5 rounded-md hover:bg-white/10 transition-colors"><i class="fas fa-bars text-lg"></i></button>
+        <span class="font-display text-white font-bold text-sm">OES — WMSU</span>
+        <div class="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center">
+            <span class="text-maroon-900 font-bold text-xs">{{ (session.name or 'U')[0]|upper }}</span>
+        </div>
+    </header>
+    <!-- Content -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-7 animate-fade-in">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="mb-5">
+            {% for category, message in messages %}
+            {% set icon = 'circle-check' if category=='success' else ('circle-exclamation' if category=='danger' else ('triangle-exclamation' if category=='warning' else 'circle-info')) %}
+            {% set colors = 'bg-green-50 border-green-200 text-green-800' if category=='success' else ('bg-red-50 border-red-200 text-red-800' if category=='danger' else ('bg-amber-50 border-amber-200 text-amber-800' if category=='warning' else 'bg-blue-50 border-blue-200 text-blue-800')) %}
+            {% set icolor = 'text-green-500' if category=='success' else ('text-red-500' if category=='danger' else ('text-amber-500' if category=='warning' else 'text-blue-500')) %}
+            <div class="flash-alert border {{ colors }}">
+                <i class="fas fa-{{ icon }} {{ icolor }} mt-0.5 flex-shrink-0"></i>
+                <span>{{ message }}</span>
+                <button class="flash-close" onclick="this.parentElement.remove()"><i class="fas fa-xmark"></i></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+{% else %}
+<!-- ══ PUBLIC LAYOUT ══ -->
+<div class="min-h-screen relative flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image:url('{{ url_for('static', filename='img/wmsu_campus.png') }}')"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-maroon-900/90 via-maroon-800/80 to-black/70"></div>
+    <!-- Public flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="fixed top-4 right-4 z-50 space-y-2 w-80 max-w-[calc(100vw-2rem)]">
+        {% for category, message in messages %}
+        {% set colors = 'bg-green-50 border-green-200 text-green-800' if category=='success' else ('bg-red-50 border-red-200 text-red-800' if category=='danger' else ('bg-amber-50 border-amber-200 text-amber-800' if category=='warning' else 'bg-blue-50 border-blue-200 text-blue-800')) %}
+        {% set icon = 'circle-check' if category=='success' else ('circle-exclamation' if category=='danger' else ('triangle-exclamation' if category=='warning' else 'circle-info')) %}
+        {% set icolor = 'text-green-500' if category=='success' else ('text-red-500' if category=='danger' else ('text-amber-500' if category=='warning' else 'text-blue-500')) %}
+        <div class="flash-alert border {{ colors }} shadow-xl rounded-xl">
+            <i class="fas fa-{{ icon }} {{ icolor }} flex-shrink-0"></i>
+            <span class="text-sm">{{ message }}</span>
+            <button class="flash-close" onclick="this.parentElement.remove()"><i class="fas fa-xmark"></i></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="relative z-10 w-full animate-slide-up">{{ self.content() }}</div>
+</div>
+{% endif %}
+
+<script>
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.remove('hidden');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.add('hidden');document.body.style.overflow='';}
+setTimeout(()=>{document.querySelectorAll('.flash-alert').forEach(el=>{el.style.transition='opacity .4s,transform .4s';el.style.opacity='0';el.style.transform='translateY(-8px)';setTimeout(()=>el.remove(),400);});},6000);
+</script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>
