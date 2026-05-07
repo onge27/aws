@@ -15,6 +15,7 @@ gunicorn
  werkzeug
 clerk-backend-api
 google-genai
+google-generativeai
 psycopg2-binary
  
  
