@@ -1,7 +1,25 @@
-flask
+ flask
 groq
 gunicorn
 python-dotenv
 bcrypt
 pandas
+Flask
+bcrypt
+pandas
+openpyxl
+ anthropic
+bcrypt
+Flask
+gunicorn
+ werkzeug
+clerk-backend-api
+google-genai
+psycopg2-binary
+ 
+ 
+ 
+ 
+ 
+ 
 
